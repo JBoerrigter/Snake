@@ -1,4 +1,5 @@
-﻿using Snake.UiElements;
+﻿using Snake.Properties;
+using Snake.UiElements;
 using System;
 using System.Windows.Forms;
 
@@ -27,6 +28,9 @@ namespace Snake
         private void CurrentGame_Started(object sender, EventArgs e)
         {
             CloseUiForms();
+
+            // Otherwise KeyDown (MainForm) wont trigger
+            CurrentGame.Focus();
         }
 
         private void CurrentGame_Continued(object sender, EventArgs e)
@@ -38,14 +42,20 @@ namespace Snake
         {
             if (pause == null)
                 pause = new PauseForm(CurrentGame);
-            pause.ShowDialog();
+            pause.ShowDialog(this);
+
+            // Otherwise KeyDown (MainForm) wont trigger
+            CurrentGame.Focus();
         }
 
         private void CurrentGame_Over(object sender, EventArgs e)
         {
             if (over == null)
                 over = new OverForm(CurrentGame);
-            over.ShowDialog();
+            over.ShowDialog(this);
+
+            // Otherwise KeyDown (MainForm) wont trigger
+            CurrentGame.Focus();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
