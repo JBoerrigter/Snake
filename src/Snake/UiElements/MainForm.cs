@@ -10,10 +10,10 @@ namespace Snake
         OverForm over;
         PauseForm pause;
 
-        public MainForm()
-        {
-            InitializeComponent();
-        }
+        public MainForm() { InitializeComponent(); }
+
+        #region Button Events
+
 
         private void BtnNewGame_Click(object sender, EventArgs e)
         {
@@ -24,6 +24,20 @@ namespace Snake
         {
             Application.Exit();
         }
+
+        private void BtnPause_Click(object sender, EventArgs e)
+        {
+            CurrentGame.Pause();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            CurrentGame.Update(e);
+        }
+
+        #endregion
+
+        #region Game Events
 
         private void CurrentGame_Started(object sender, EventArgs e)
         {
@@ -52,6 +66,11 @@ namespace Snake
             CurrentGame.Focus();
         }
 
+        private void CurrentGame_PointsChanged(object sender, EventArgs e)
+        {
+            pointsValue.Text = CurrentGame.Points.ToString();
+        }
+
         private void CurrentGame_Over(object sender, EventArgs e)
         {
             if (over == null)
@@ -62,10 +81,9 @@ namespace Snake
             CurrentGame.Focus();
         }
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            CurrentGame.Update(e);
-        }
+        #endregion
+
+        #region Private Methods
 
         private void CloseUiForms()
         {
@@ -76,14 +94,6 @@ namespace Snake
                 over.Close();
         }
 
-        private void BtnPause_Click(object sender, EventArgs e)
-        {
-            CurrentGame.Pause();
-        }
-
-        private void CurrentGame_PointsChanged(object sender, EventArgs e)
-        {
-            pointsValue.Text = CurrentGame.Points.ToString();
-        }
+        #endregion
     }
 }
