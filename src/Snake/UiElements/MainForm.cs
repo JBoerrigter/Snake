@@ -60,7 +60,7 @@ namespace Snake
         {
             if (pause == null)
                 pause = new PauseForm(CurrentGame);
-            pause.ShowDialog(this);
+            pause.ShowDialog(CurrentGame);
 
             // Otherwise KeyDown (MainForm) wont trigger
             CurrentGame.Focus();
@@ -75,7 +75,7 @@ namespace Snake
         {
             if (over == null)
                 over = new OverForm(CurrentGame);
-            over.ShowDialog(this);
+            over.ShowDialog(CurrentGame);
 
             // Otherwise KeyDown (MainForm) wont trigger
             CurrentGame.Focus();
