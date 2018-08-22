@@ -39,6 +39,8 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.BtnPause = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pointsValue = new System.Windows.Forms.Label();
             this.CurrentGame = new Snake.UiElements.Game();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -71,10 +73,12 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(134)))), ((int)(((byte)(245)))));
+            this.panel1.Controls.Add(this.pointsValue);
+            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.BtnClose);
-            this.panel1.Controls.Add(this.BtnRestartGame);
             this.panel1.Controls.Add(this.BtnNewGame);
+            this.panel1.Controls.Add(this.BtnRestartGame);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.ForeColor = System.Drawing.Color.White;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -130,14 +134,13 @@
             // BtnRestartGame
             // 
             this.BtnRestartGame.BackColor = System.Drawing.Color.DodgerBlue;
-            this.BtnRestartGame.Enabled = false;
             this.BtnRestartGame.FlatAppearance.BorderSize = 0;
             this.BtnRestartGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BtnRestartGame.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnRestartGame.ForeColor = System.Drawing.Color.White;
             this.BtnRestartGame.Image = ((System.Drawing.Image)(resources.GetObject("BtnRestartGame.Image")));
             this.BtnRestartGame.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRestartGame.Location = new System.Drawing.Point(8, 135);
+            this.BtnRestartGame.Location = new System.Drawing.Point(8, 71);
             this.BtnRestartGame.Margin = new System.Windows.Forms.Padding(2);
             this.BtnRestartGame.Name = "BtnRestartGame";
             this.BtnRestartGame.Size = new System.Drawing.Size(152, 52);
@@ -146,6 +149,7 @@
             this.BtnRestartGame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.BtnRestartGame.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.BtnRestartGame.UseVisualStyleBackColor = false;
+            this.BtnRestartGame.Visible = false;
             this.BtnRestartGame.Click += new System.EventHandler(this.BtnNewGame_Click);
             // 
             // label1
@@ -208,6 +212,26 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "powered by JB";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.label3.Location = new System.Drawing.Point(12, 157);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 25);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Points:";
+            // 
+            // pointsValue
+            // 
+            this.pointsValue.AutoSize = true;
+            this.pointsValue.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.pointsValue.Location = new System.Drawing.Point(105, 157);
+            this.pointsValue.Name = "pointsValue";
+            this.pointsValue.Size = new System.Drawing.Size(22, 25);
+            this.pointsValue.TabIndex = 6;
+            this.pointsValue.Text = "0";
+            // 
             // CurrentGame
             // 
             this.CurrentGame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -224,6 +248,7 @@
             this.CurrentGame.Paused += new System.EventHandler(this.CurrentGame_Paused);
             this.CurrentGame.Started += new System.EventHandler(this.CurrentGame_Started);
             this.CurrentGame.Continued += new System.EventHandler(this.CurrentGame_Continued);
+            this.CurrentGame.PointsChanged += new System.EventHandler(this.CurrentGame_PointsChanged);
             // 
             // MainForm
             // 
@@ -245,6 +270,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
@@ -265,6 +291,8 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button BtnPause;
+        private System.Windows.Forms.Label pointsValue;
+        private System.Windows.Forms.Label label3;
     }
 }
 

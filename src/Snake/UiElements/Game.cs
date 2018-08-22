@@ -20,9 +20,10 @@ namespace Snake.UiElements
         public event EventHandler Paused;
         public event EventHandler Started;
         public event EventHandler Continued;
+        public event EventHandler PointsChanged;
 
         public Boolean Running => GameTime.Enabled;
-        public int Points => schlange.Koerper.Capacity;
+        public int Points => schlange.Koerper.Count;
 
         public Game() => InitializeComponent();
 
@@ -129,6 +130,7 @@ namespace Snake.UiElements
             {
                 essen = new Meal(Width, Height);
                 GameTime.Interval = Points > 0 ? DEFAULT_INTERVAL - Points : 1;
+                PointsChanged?.Invoke(this, EventArgs.Empty);
             }
 
             schlange.Bewegen(direction);

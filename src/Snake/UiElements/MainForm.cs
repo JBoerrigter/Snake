@@ -29,6 +29,10 @@ namespace Snake
         {
             CloseUiForms();
 
+            // Show / Hide Buttons
+            BtnNewGame.Visible = false;
+            BtnRestartGame.Visible = true;
+
             // Otherwise KeyDown (MainForm) wont trigger
             CurrentGame.Focus();
         }
@@ -75,6 +79,11 @@ namespace Snake
         private void BtnPause_Click(object sender, EventArgs e)
         {
             CurrentGame.Pause();
+        }
+
+        private void CurrentGame_PointsChanged(object sender, EventArgs e)
+        {
+            pointsValue.Text = CurrentGame.Points.ToString();
         }
     }
 }
