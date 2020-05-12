@@ -76,6 +76,7 @@ namespace Snake
             if (over == null)
                 over = new OverForm(CurrentGame);
             over.ShowDialog(CurrentGame);
+            pointsValue.Text = "0";
 
             // Otherwise KeyDown (MainForm) wont trigger
             CurrentGame.Focus();
