@@ -4,9 +4,9 @@ namespace Snake.GameObjects
 {
     public class Head : BaseItem
     {
-        public Head(Point location)
+        public Head(int x, int y)
         {
-            Location = location;
+            Location = new Point(x, y);
         }
 
         public bool CheckCollision(BaseItem item)

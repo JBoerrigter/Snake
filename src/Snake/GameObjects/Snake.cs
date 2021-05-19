@@ -8,83 +8,86 @@ namespace Snake.GameObjects
 {
     public class Snake : IDisposable
     {
-        public Head Kopf { get; private set; }
-        public Rectangle Parent { get; private set; }
-        public List<Part> Koerper { get; private set; }
+        public Head HeadElement { get; private set; }
+        public List<Part> BodyList { get; private set; }
 
-        public Snake(Rectangle parent)
+        public Snake(Size playgroundSize)
         {
-            Parent = parent;
+            int posX = playgroundSize.Width / 2;
+            int posY = playgroundSize.Height / 2;
 
-            int posX = Parent.Width / 2;
-            int posY = Parent.Height / 2;
+            posX -= (posX % 10);
+            posY -= (posY % 10);
 
-            posX = posX - (posX % 10);
-            posY = posY - (posY % 10);
-
-            Kopf = new Head(new Point(posX, posY));
-            Koerper = new List<Part>();
+            HeadElement = new Head(posX, posY);
+            BodyList = new List<Part>();
         }
 
-        public bool Ate(Meal essen)
+        public bool CanEat(Meal meal)
         {
-            if (Kopf.CheckCollision(essen))
-            {
-                Part neuesTeil = new Part();
-                neuesTeil.Follow(essen);
-                Koerper.Add(neuesTeil);
-                return true;
-            }
-
-            return false;
+            return HeadElement.CheckCollision(meal);
         }
 
-        public bool IsColliding()
+        public void Eat(Meal meal)
         {
-            if (Koerper.Any((item) => { return Kopf.CheckCollision(item); }))
+            Part newPart = new Part();
+            newPart.Follow(meal);
+            BodyList.Add(newPart);
+        }
+
+        public bool IsColliding(Rectangle playground)
+        {
+            if (BodyList.Any(item => HeadElement.CheckCollision(item)))
             {
                 return true;
             }
-         
-            if (Kopf.Location.X + Kopf.Size.Width > Parent.Width || Kopf.Location.X < 0 || 
-                Kopf.Location.Y + Kopf.Size.Height > Parent.Height || Kopf.Location.Y < 0)
-            {
-                return true;
-            }
+            
+            bool isColliding = !playground.Contains(HeadElement.Location);
 
-            return false;
+            return isColliding;
         }
 
-        public void Bewegen(Direction direction)
+        public void Move(Direction direction)
         {
-            if (Koerper.Any())
+            if (BodyList.Any())
             {
-                for (int i = Koerper.Count - 1; i > 0; i--)
-                    Koerper[i].Follow(Koerper[i - 1]);
+                for (int i = BodyList.Count - 1; i > 0; i--)
+                {
+                    BodyList[i].Follow(BodyList[i - 1]);
+                }
 
-                Koerper.First().Follow(Kopf);
+                BodyList.First().Follow(HeadElement);
             }
 
-            Kopf.Move(direction);
+            HeadElement.Move(direction);
         }
 
         public void Draw(Graphics graphics)
         {
-            Kopf.Draw(graphics);
+            HeadElement.Draw(graphics);
 
-            foreach (Part koerper in Koerper)
+            foreach (Part koerper in BodyList)
+            {
                 koerper.Draw(graphics);
+            }
         }
 
         public void Dispose()
         {
-            if (Kopf != null)
-                Kopf = null;
-
-            if (Koerper != null)
+            if (HeadElement != null)
             {
-                Koerper.Clear();
-                Koerper = null;
+                HeadElement.Dispose();
+                HeadElement = null;
+            }
+
+            if (BodyList != null)
+            {
+                foreach (BaseItem item in BodyList)
+                {
+                    item.Dispose();
+                }
+                BodyList.Clear();
+                BodyList = null;
             }
         }
     }

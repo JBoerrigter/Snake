@@ -1,63 +1,76 @@
 ﻿using Snake.GameObjects;
+
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Snake.UiElements
 {
     public class Game : Panel, IGame
     {
-        Meal essen;
-        bool updated;
-        Timer GameTime;
-        Direction direction;
-        IContainer components;
-        GameObjects.Snake schlange;
-
         const int DEFAULT_INTERVAL = 250;
 
-        public event EventHandler Over;
+        private Meal _meal;
+        private bool _updated;
+        private Timer _gameTime;
+        private Direction _direction;
+        private IContainer _components;
+        private GameObjects.Snake _snake;
+        private Rectangle _playgroundBounds;
+
         public event EventHandler Paused;
         public event EventHandler Started;
+        public event EventHandler Gameover;
         public event EventHandler Continued;
         public event EventHandler PointsChanged;
 
-        public Boolean Running => GameTime.Enabled;
-        public int Points => schlange.Koerper.Count;
+        public bool Running => _gameTime.Enabled;
+        public int Points => _snake.BodyList.Count;
 
-        public Game() => InitializeComponent();
+        public Game()
+        {
+            InitializeComponent();
+        }
 
         private void InitializeComponent()
         {
-            components = new Container();
-            GameTime = new Timer(components)
+            _components = new Container();
+            _gameTime = new Timer(_components)
             {
                 Interval = DEFAULT_INTERVAL
             };
-            GameTime.Tick += new EventHandler(GameTime_Tick);
+            _gameTime.Tick += new EventHandler(GameTime_Tick);
+            _playgroundBounds = new Rectangle(0, 0, Width, Height);
         }
 
-        public void Update(KeyEventArgs e)
+        public void HandleInput(KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.Escape:
-                    Pause();
+                    Stop();
                     break;
             }
 
-            if (Running && !updated)
+            if (Running && !_updated)
             {
                 switch (e.KeyCode)
                 {
-                    case Keys.Up: if(!direction.Equals(Direction.Down)) direction = Direction.Up; break;
-                    case Keys.Down: if (!direction.Equals(Direction.Up)) direction = Direction.Down; break;
-                    case Keys.Right: if (!direction.Equals(Direction.Left)) direction = Direction.Right; break;
-                    case Keys.Left: if (!direction.Equals(Direction.Right)) direction = Direction.Left; break;
+                    case Keys.Up: if (!_direction.Equals(Direction.Down)) _direction = Direction.Up; break;
+                    case Keys.Down: if (!_direction.Equals(Direction.Up)) _direction = Direction.Down; break;
+                    case Keys.Right: if (!_direction.Equals(Direction.Left)) _direction = Direction.Right; break;
+                    case Keys.Left: if (!_direction.Equals(Direction.Right)) _direction = Direction.Left; break;
                 }
             }
 
-            updated = true;
+            _updated = true;
+        }
+
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            _playgroundBounds = new Rectangle(0, 0, Width, Height);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -66,8 +79,8 @@ namespace Snake.UiElements
 
             if (Running)
             {
-                essen.Draw(e.Graphics);
-                schlange.Draw(e.Graphics);
+                _meal.Draw(e.Graphics);
+                _snake.Draw(e.Graphics);
             }
         }
 
@@ -77,19 +90,25 @@ namespace Snake.UiElements
 
             if (disposing)
             {
-                if (essen != null)
-                    essen = null;
+                if (_meal != null)
+                {
+                    _meal.Dispose();
+                    _meal = null;
+                }
 
-                if (schlange != null)
-                    schlange.Dispose();
+                if (_snake != null)
+                {
+                    _snake.Dispose();
+                    _snake = null;
+                }
             }
         }
 
         public void New()
         {
-            schlange = new GameObjects.Snake(this.Bounds);
-            essen = new Meal(this.Width, this.Height);
-            GameTime.Start();
+            _snake = new GameObjects.Snake(this.Size);
+            CreateMeal();
+            _gameTime.Start();
             Started?.Invoke(this, EventArgs.Empty);
         }
 
@@ -97,46 +116,62 @@ namespace Snake.UiElements
         {
             if (!Running)
             {
-                GameTime.Start();
+                _gameTime.Start();
                 Continued?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        public void Pause()
-        {
-            if (Running)
-                Stop();
         }
 
         public void Stop()
         {
             if (Running)
             {
-                GameTime.Stop();
+                _gameTime.Stop();
                 Paused?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private void GameTime_Tick(object sender, EventArgs e)
         {
-            if (schlange.IsColliding())
+            if (_snake.IsColliding(_playgroundBounds))
             {
-                GameTime.Stop();
-                Over?.Invoke(this, EventArgs.Empty);
+                _gameTime.Stop();
+                Gameover?.Invoke(this, EventArgs.Empty);
                 return;
             }
 
-            if (schlange.Ate(essen))
+            if (_snake.CanEat(_meal))
             {
-                essen = new Meal(Width, Height);
-                GameTime.Interval = Points > 0 ? DEFAULT_INTERVAL - Points : 1;
+                _snake.Eat(_meal);
+                CreateMeal();
+                SetDifficulty();
                 PointsChanged?.Invoke(this, EventArgs.Empty);
             }
 
-            schlange.Bewegen(direction);
+            _snake.Move(_direction);
             Refresh();
 
-            updated = false;
+            _updated = false;
+        }
+
+        private void CreateMeal()
+        {
+            if (_meal != null)
+            {
+                _meal.Dispose();
+            }
+            _meal = new Meal(Width, Height);
+        }
+
+        private void SetDifficulty()
+        {
+            if (Points > 0)
+            {
+                _gameTime.Interval = DEFAULT_INTERVAL - Points;
+            }
+            else
+            {
+                _gameTime.Interval = 1;
+            }
         }
     }
 }

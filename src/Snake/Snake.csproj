@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\BaseItem.cs" />
-    <Compile Include="Assets\Enums.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Interfaces\IGame.cs" />
     <Compile Include="UiElements\Game.cs">
       <SubType>Component</SubType>
@@ -75,11 +75,11 @@
     <Compile Include="UiElements\PauseForm.Designer.cs">
       <DependentUpon>PauseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UiElements\OverForm.cs">
+    <Compile Include="UiElements\GameOverForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UiElements\OverForm.Designer.cs">
-      <DependentUpon>OverForm.cs</DependentUpon>
+    <Compile Include="UiElements\GameOverForm.Designer.cs">
+      <DependentUpon>GameOverForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="UiElements\Game.resx">
       <DependentUpon>Game.cs</DependentUpon>
@@ -100,8 +100,8 @@
     <EmbeddedResource Include="UiElements\PauseForm.resx">
       <DependentUpon>PauseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UiElements\OverForm.resx">
-      <DependentUpon>OverForm.cs</DependentUpon>
+    <EmbeddedResource Include="UiElements\GameOverForm.resx">
+      <DependentUpon>GameOverForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

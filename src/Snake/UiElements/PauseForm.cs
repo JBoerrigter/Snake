@@ -5,22 +5,22 @@ namespace Snake.UiElements
 {
     public partial class PauseForm : Form
     {
-        IGame currentGame;
+        readonly IGame _currentGame;
 
         public PauseForm(IGame game)
         {
             InitializeComponent();
-            currentGame = game;
+            _currentGame = game;
         }
 
         private void BtnContinue_Click(object sender, EventArgs e)
         {
-            currentGame.Continue();
+            _currentGame.Continue();
         }
 
         private void BtnRestart_Click(object sender, EventArgs e)
         {
-            currentGame.New();
+            _currentGame.New();
         }
 
         private void BtnExit_Click(object sender, EventArgs e)

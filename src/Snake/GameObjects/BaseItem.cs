@@ -1,28 +1,24 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Snake.GameObjects
 {
-    public class BaseItem
+    public class BaseItem : IDisposable
     {
-        const int STEP_SIZE = 10;
         const int DEFAULT_WIDTH = 10;
         const int DEFAULT_HEIGHT = 10;
 
-        public Size Size { get; private set; }
-        public Color Color { get; private set; }
+        private readonly Brush _brush;
+
+        public Size Size { get; }
         public Point Location { get; protected set; }
 
         public BaseItem() : this(Color.Black) { }
 
         public BaseItem(Color color)
         {
-            Color = color;
+            _brush = new SolidBrush(color);
             Size = new Size(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        }
-
-        private Brush GetBrush()
-        {
-            return new SolidBrush(Color);
         }
 
         public Rectangle GetBounds()
@@ -32,7 +28,12 @@ namespace Snake.GameObjects
 
         public virtual void Draw(Graphics graphics)
         {
-            graphics.FillRectangle(GetBrush(), GetBounds());
+            graphics.FillRectangle(_brush, GetBounds());
+        }
+
+        public void Dispose()
+        {
+            _brush.Dispose();
         }
     }
 }

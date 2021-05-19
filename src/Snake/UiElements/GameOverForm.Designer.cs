@@ -1,6 +1,6 @@
 ﻿namespace Snake.UiElements
 {
-    partial class OverForm
+    partial class GameOverForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OverForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameOverForm));
             this.LabelPause = new System.Windows.Forms.Label();
             this.BtnRestart = new System.Windows.Forms.Button();
             this.BtnExit = new System.Windows.Forms.Button();

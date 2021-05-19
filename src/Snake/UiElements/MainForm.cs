@@ -1,5 +1,5 @@
-﻿using Snake.Properties;
-using Snake.UiElements;
+﻿using Snake.UiElements;
+
 using System;
 using System.Windows.Forms;
 
@@ -7,10 +7,13 @@ namespace Snake
 {
     public partial class MainForm : Form
     {
-        OverForm over;
-        PauseForm pause;
+        GameOverForm _gameoverDisplay;
+        PauseForm _pauseDisplay;
 
-        public MainForm() { InitializeComponent(); }
+        public MainForm()
+        {
+            InitializeComponent();
+        }
 
         #region Button Events
 
@@ -27,12 +30,12 @@ namespace Snake
 
         private void BtnPause_Click(object sender, EventArgs e)
         {
-            CurrentGame.Pause();
+            CurrentGame.Stop();
         }
 
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            CurrentGame.Update(e);
+            CurrentGame.HandleInput(e);
         }
 
         #endregion
@@ -58,9 +61,11 @@ namespace Snake
 
         private void CurrentGame_Paused(object sender, EventArgs e)
         {
-            if (pause == null)
-                pause = new PauseForm(CurrentGame);
-            pause.ShowDialog(CurrentGame);
+            if (_pauseDisplay == null)
+            {
+                _pauseDisplay = new PauseForm(CurrentGame);
+            }
+            _pauseDisplay.ShowDialog(CurrentGame);
 
             // Otherwise KeyDown (MainForm) wont trigger
             CurrentGame.Focus();
@@ -73,9 +78,11 @@ namespace Snake
 
         private void CurrentGame_Over(object sender, EventArgs e)
         {
-            if (over == null)
-                over = new OverForm(CurrentGame);
-            over.ShowDialog(CurrentGame);
+            if (_gameoverDisplay == null)
+            {
+                _gameoverDisplay = new GameOverForm(CurrentGame);
+            }
+            _gameoverDisplay.ShowDialog(CurrentGame);
             pointsValue.Text = "0";
 
             // Otherwise KeyDown (MainForm) wont trigger
@@ -88,11 +95,8 @@ namespace Snake
 
         private void CloseUiForms()
         {
-            if (pause != null && pause.Visible)
-                pause.Close();
-
-            if (over != null && over.Visible)
-                over.Close();
+            if (_pauseDisplay != null && _pauseDisplay.Visible) _pauseDisplay.Close();
+            if (_gameoverDisplay != null && _gameoverDisplay.Visible) _gameoverDisplay.Close();
         }
 
         #endregion

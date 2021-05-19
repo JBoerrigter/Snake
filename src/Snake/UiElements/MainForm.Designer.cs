@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.BtnNewGame = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pointsValue = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.BtnClose = new System.Windows.Forms.Button();
@@ -39,8 +41,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.BtnPause = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.pointsValue = new System.Windows.Forms.Label();
             this.CurrentGame = new Snake.UiElements.Game();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -59,10 +59,10 @@
             this.BtnNewGame.ForeColor = System.Drawing.Color.White;
             this.BtnNewGame.Image = ((System.Drawing.Image)(resources.GetObject("BtnNewGame.Image")));
             this.BtnNewGame.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnNewGame.Location = new System.Drawing.Point(8, 71);
-            this.BtnNewGame.Margin = new System.Windows.Forms.Padding(2);
+            this.BtnNewGame.Location = new System.Drawing.Point(0, 64);
+            this.BtnNewGame.Margin = new System.Windows.Forms.Padding(0);
             this.BtnNewGame.Name = "BtnNewGame";
-            this.BtnNewGame.Size = new System.Drawing.Size(152, 52);
+            this.BtnNewGame.Size = new System.Drawing.Size(166, 61);
             this.BtnNewGame.TabIndex = 0;
             this.BtnNewGame.Text = "New";
             this.BtnNewGame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -86,6 +86,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(170, 430);
             this.panel1.TabIndex = 5;
+            // 
+            // pointsValue
+            // 
+            this.pointsValue.AutoSize = true;
+            this.pointsValue.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.pointsValue.Location = new System.Drawing.Point(105, 157);
+            this.pointsValue.Name = "pointsValue";
+            this.pointsValue.Size = new System.Drawing.Size(22, 25);
+            this.pointsValue.TabIndex = 6;
+            this.pointsValue.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 14F);
+            this.label3.Location = new System.Drawing.Point(12, 157);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(67, 25);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Points:";
             // 
             // panel2
             // 
@@ -120,10 +140,10 @@
             this.BtnClose.ForeColor = System.Drawing.Color.White;
             this.BtnClose.Image = ((System.Drawing.Image)(resources.GetObject("BtnClose.Image")));
             this.BtnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnClose.Location = new System.Drawing.Point(8, 351);
+            this.BtnClose.Location = new System.Drawing.Point(0, 369);
             this.BtnClose.Margin = new System.Windows.Forms.Padding(2);
             this.BtnClose.Name = "BtnClose";
-            this.BtnClose.Size = new System.Drawing.Size(152, 68);
+            this.BtnClose.Size = new System.Drawing.Size(168, 61);
             this.BtnClose.TabIndex = 2;
             this.BtnClose.Text = "Exit";
             this.BtnClose.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -140,10 +160,10 @@
             this.BtnRestartGame.ForeColor = System.Drawing.Color.White;
             this.BtnRestartGame.Image = ((System.Drawing.Image)(resources.GetObject("BtnRestartGame.Image")));
             this.BtnRestartGame.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BtnRestartGame.Location = new System.Drawing.Point(8, 71);
+            this.BtnRestartGame.Location = new System.Drawing.Point(0, 64);
             this.BtnRestartGame.Margin = new System.Windows.Forms.Padding(2);
             this.BtnRestartGame.Name = "BtnRestartGame";
-            this.BtnRestartGame.Size = new System.Drawing.Size(152, 52);
+            this.BtnRestartGame.Size = new System.Drawing.Size(166, 61);
             this.BtnRestartGame.TabIndex = 1;
             this.BtnRestartGame.Text = "Restart";
             this.BtnRestartGame.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -208,29 +228,9 @@
             this.label2.Location = new System.Drawing.Point(113, 36);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 19);
+            this.label2.Size = new System.Drawing.Size(79, 19);
             this.label2.TabIndex = 7;
-            this.label2.Text = "powered by JB";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.label3.Location = new System.Drawing.Point(12, 157);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(67, 25);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Points:";
-            // 
-            // pointsValue
-            // 
-            this.pointsValue.AutoSize = true;
-            this.pointsValue.Font = new System.Drawing.Font("Segoe UI", 14F);
-            this.pointsValue.Location = new System.Drawing.Point(105, 157);
-            this.pointsValue.Name = "pointsValue";
-            this.pointsValue.Size = new System.Drawing.Size(22, 25);
-            this.pointsValue.TabIndex = 6;
-            this.pointsValue.Text = "0";
+            this.label2.Text = "made by JB";
             // 
             // CurrentGame
             // 
@@ -244,9 +244,9 @@
             this.CurrentGame.Name = "CurrentGame";
             this.CurrentGame.Size = new System.Drawing.Size(480, 360);
             this.CurrentGame.TabIndex = 3;
-            this.CurrentGame.Over += new System.EventHandler(this.CurrentGame_Over);
             this.CurrentGame.Paused += new System.EventHandler(this.CurrentGame_Paused);
             this.CurrentGame.Started += new System.EventHandler(this.CurrentGame_Started);
+            this.CurrentGame.Gameover += new System.EventHandler(this.CurrentGame_Over);
             this.CurrentGame.Continued += new System.EventHandler(this.CurrentGame_Continued);
             this.CurrentGame.PointsChanged += new System.EventHandler(this.CurrentGame_PointsChanged);
             // 
