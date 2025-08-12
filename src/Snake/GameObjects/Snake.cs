@@ -9,7 +9,7 @@ namespace Snake.GameObjects
     public class Snake : IDisposable
     {
         public Head HeadElement { get; private set; }
-        public List<Part> BodyList { get; private set; }
+        public LinkedList<Part> BodyList { get; private set; }
 
         public Snake(Size playgroundSize)
         {
@@ -20,7 +20,7 @@ namespace Snake.GameObjects
             posY -= (posY % 10);
 
             HeadElement = new Head(posX, posY);
-            BodyList = new List<Part>();
+            BodyList = new LinkedList<Part>();
         }
 
         public bool CanEat(Meal meal)
@@ -31,8 +31,11 @@ namespace Snake.GameObjects
         public void Eat(Meal meal)
         {
             Part newPart = new Part();
-            newPart.Follow(meal);
-            BodyList.Add(newPart);
+            if (BodyList.Any())
+                newPart.Follow(BodyList.Last.Value);
+            else
+                newPart.Follow(HeadElement);
+            BodyList.AddLast(newPart);
         }
 
         public bool IsColliding(Rectangle playground)
@@ -41,7 +44,7 @@ namespace Snake.GameObjects
             {
                 return true;
             }
-            
+
             bool isColliding = !playground.Contains(HeadElement.Location);
 
             return isColliding;
@@ -51,12 +54,10 @@ namespace Snake.GameObjects
         {
             if (BodyList.Any())
             {
-                for (int i = BodyList.Count - 1; i > 0; i--)
-                {
-                    BodyList[i].Follow(BodyList[i - 1]);
-                }
-
-                BodyList.First().Follow(HeadElement);
+                Part part = BodyList.Last.Value;
+                BodyList.RemoveLast();
+                part.Follow(HeadElement);
+                BodyList.AddFirst(part);
             }
 
             HeadElement.Move(direction);
@@ -66,9 +67,9 @@ namespace Snake.GameObjects
         {
             HeadElement.Draw(graphics);
 
-            foreach (Part koerper in BodyList)
+            foreach (Part bodyPart in BodyList)
             {
-                koerper.Draw(graphics);
+                bodyPart.Draw(graphics);
             }
         }
 
