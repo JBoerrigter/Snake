@@ -108,6 +108,7 @@ namespace Snake.UiElements
         {
             _snake = new GameObjects.Snake(this.Size);
             CreateMeal();
+            _gameTime.Interval = DEFAULT_INTERVAL;
             _gameTime.Start();
             Started?.Invoke(this, EventArgs.Empty);
         }
